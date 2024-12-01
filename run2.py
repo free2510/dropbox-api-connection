@@ -3,8 +3,8 @@ import time
 
 
 # Replace these with your actual values
-client_id = 'spj951z8two8un4'
-client_secret = '0dpx6yc9mytplza'
+client_id = 'wxm9lux682kowpc'
+client_secret = 'nagtdb0sck0yu9j'
 refresh_token = 'Ye6EozTtiDIAAAAAAAAAASBISsv6nd16q4Ctrvb0M_jCQVQu4PP3mG6NfXthEs-A'
 
 def refresh_access_token():

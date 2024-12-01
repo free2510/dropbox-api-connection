@@ -1,10 +1,10 @@
 import requests
 
 # Replace these with your actual values
-client_id = 'spj951z8two8un4'
-client_secret = '0dpx6yc9mytplza'
+client_id = 'wxm9lux682kowpc'
+client_secret = 'nagtdb0sck0yu9j'
 redirect_uri = 'https://www.google.com'
-authorization_code = 'tQtCNMl2fYoAAAAAAAAAo5NE-WJRHIUFYcDI3-iRDe8'
+authorization_code = '5_j4SWNFudsAAAAAAAAARrUTmdmBPB4b2bsz8OqVONc'
 
 # Set up the request parameters
 token_url = 'https://api.dropboxapi.com/oauth2/token'
