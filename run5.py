@@ -4,8 +4,8 @@ import dropbox
 from dropbox import DropboxOAuth2FlowNoRedirect
 
 # Replace these with your app's key and secret
-APP_KEY = 'wxm9lux682kowpc'
-APP_SECRET = 'nagtdb0sck0yu9j'
+APP_KEY = 'hgabefdupnfjf7e'
+APP_SECRET = 'ul0anfyr08to982'
 
 # Set up the OAuth2 flow with offline access
 auth_flow = DropboxOAuth2FlowNoRedirect(
