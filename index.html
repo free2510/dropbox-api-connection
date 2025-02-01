@@ -103,6 +103,34 @@
             color: #0061ff;
         }
 
+        .token-box {
+            display: flex;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .token-box input {
+            flex: 1;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+        }
+
+        .copy-icon {
+            margin-left: 10px;
+            cursor: pointer;
+            color: #0061ff;
+            font-size: 18px;
+        }
+
+        .copy-icon:hover {
+            color: #0047cc;
+        }
+
         /* Responsive Design */
         @media (max-width: 600px) {
             .container {
@@ -123,7 +151,7 @@
 <body>
     <div class="container">
         <h1>Dropbox Account</h1>
-        <h3 style="color: rgb(134, 20, 20);"># Add URL redirect to app: https://www.dropbox.com/oauth2/authorize</h3>
+        <h3 style="color: rgb(134, 20, 20);"># Add URL redirect to app<br>https://www.dropbox.com/oauth2/authorize</h3>
 
         <!-- Input fields for APP_KEY and APP_SECRET -->
         <label for="appKey">App Key:</label>
@@ -196,8 +224,14 @@
                     const outputDiv = document.getElementById('output');
                     outputDiv.innerHTML = `
                     <h2>Account Data:</h2>
-                    <p><strong>Access Token:</strong> ${data.access_token}</p>
-                    <p><strong>Refresh Token:</strong> ${data.refresh_token}</p>
+                    <div class="token-box">
+                        <input type="text" id="accessToken" value="${data.access_token}" readonly>
+                        <span class="copy-icon" onclick="copyToClipboard('accessToken')">📋</span>
+                    </div>
+                    <div class="token-box">
+                        <input type="text" id="refreshToken" value="${data.refresh_token}" readonly>
+                        <span class="copy-icon" onclick="copyToClipboard('refreshToken')">📋</span>
+                    </div>
                     <p><strong>User ID:</strong> ${data.uid}</p>
                     <p><strong>Token Type:</strong> ${data.token_type}</p>
                     <p><strong>Expires In:</strong> ${data.expires_in} seconds</p>
@@ -210,6 +244,15 @@
                     outputDiv.innerHTML = `<p>Error: ${error.message}</p>`;
                 });
         });
+
+        // Function to copy token to clipboard
+        function copyToClipboard(elementId) {
+            const copyText = document.getElementById(elementId);
+            copyText.select();
+            copyText.setSelectionRange(0, 99999); // For mobile devices
+            document.execCommand("copy");
+            alert("Copied to clipboard: " + copyText.value);
+        }
     </script>
 </body>
 
