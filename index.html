@@ -167,8 +167,7 @@
             document.getElementById('authCodeSection').style.display = 'block';
 
             // Generate the authorization link
-            const REDIRECT_URI = 'https://www.dropbox.com/oauth2/authorize';
-            const authUrl = `https://www.dropbox.com/oauth2/authorize?client_id=${APP_KEY}&response_type=code&redirect_uri=${REDIRECT_URI}&token_access_type=offline`;
+            const authUrl = `https://www.dropbox.com/oauth2/authorize?client_id=${APP_KEY}&response_type=code&token_access_type=offline`;
             document.getElementById('authLink').href = authUrl;
         });
 
