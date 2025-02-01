@@ -122,32 +122,31 @@
 
 <body>
     <div class="container">
-        <h1>Dropbox Account/h1>
-            <h3 style="color: rgb(134, 20, 20);"># add url redirect to app https://www.dropbox.com/oauth2/authorize
-            </h3>
+        <h1>Dropbox Account</h1>
+        <h3 style="color: rgb(134, 20, 20);"># Add URL redirect to app: https://www.dropbox.com/oauth2/authorize</h3>
 
-            <!-- Input fields for APP_KEY and APP_SECRET -->
-            <label for="appKey">App Key:</label>
-            <input type="text" id="appKey" placeholder="Enter your App Key">
+        <!-- Input fields for APP_KEY and APP_SECRET -->
+        <label for="appKey">App Key:</label>
+        <input type="text" id="appKey" placeholder="Enter your App Key">
 
-            <label for="appSecret">App Secret:</label>
-            <input type="text" id="appSecret" placeholder="Enter your App Secret">
+        <label for="appSecret">App Secret:</label>
+        <input type="text" id="appSecret" placeholder="Enter your App Secret">
 
-            <!-- Button to start authorization -->
-            <button id="authorizeButton">Authorize Dropbox</button>
+        <!-- Button to start authorization -->
+        <button id="authorizeButton">Authorize Dropbox</button>
 
-            <!-- Section for authorization code input -->
-            <div id="authCodeSection" style="display: none;">
-                <h2>Step 2: Enter Authorization Code</h2>
-                <p>1. Click the link below to authorize the app:</p>
-                <a id="authLink" target="_blank">Authorize Dropbox</a><br><br>
-                <p>2. After authorizing, copy the authorization code and paste it below:</p>
-                <input type="text" id="authCode" placeholder="Enter authorization code"><br><br>
-                <button id="generateTokenButton">Generate Access Token and Refresh Token</button>
-            </div>
+        <!-- Section for authorization code input -->
+        <div id="authCodeSection" style="display: none;">
+            <h2>Step 2: Enter Authorization Code</h2>
+            <p>1. Click the link below to authorize the app:</p>
+            <a id="authLink" target="_blank">Authorize Dropbox</a><br><br>
+            <p>2. After authorizing, copy the authorization code and paste it below:</p>
+            <input type="text" id="authCode" placeholder="Enter authorization code"><br><br>
+            <button id="generateTokenButton">Generate Access Token and Refresh Token</button>
+        </div>
 
-            <!-- Output area for tokens and account data -->
-            <div id="output"></div>
+        <!-- Output area for tokens and account data -->
+        <div id="output"></div>
     </div>
 
     <script>
@@ -166,7 +165,7 @@
             // Show the authorization code section
             document.getElementById('authCodeSection').style.display = 'block';
 
-            // Generate the authorization link
+            // Generate the authorization link (no redirect_uri needed)
             const authUrl = `https://www.dropbox.com/oauth2/authorize?client_id=${APP_KEY}&response_type=code&token_access_type=offline`;
             document.getElementById('authLink').href = authUrl;
         });
@@ -189,8 +188,7 @@
                     'code': authCode,
                     'grant_type': 'authorization_code',
                     'client_id': APP_KEY,
-                    'client_secret': APP_SECRET,
-                    'redirect_uri': 'https://www.dropbox.com/oauth2/authorize', // Use the same redirect URI
+                    'client_secret': APP_SECRET
                 }),
             })
                 .then(response => response.json())
