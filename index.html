@@ -18,39 +18,46 @@
     <!-- Button to start authorization -->
     <button id="authorizeButton">Authorize Dropbox</button>
 
-    <!-- Output area for tokens -->
+    <!-- Section for authorization code input -->
+    <div id="authCodeSection" style="display: none;">
+        <h2>Step 2: Enter Authorization Code</h2>
+        <p>1. Click the link below to authorize the app:</p>
+        <a id="authLink" target="_blank">Authorize Dropbox</a><br><br>
+        <p>2. After authorizing, copy the authorization code and paste it below:</p>
+        <input type="text" id="authCode" placeholder="Enter authorization code"><br><br>
+        <button id="generateTokenButton">Generate Access Token and Refresh Token</button>
+    </div>
+
+    <!-- Output area for tokens and account data -->
     <div id="output"></div>
 
     <script>
+        let APP_KEY, APP_SECRET;
+
         document.getElementById('authorizeButton').addEventListener('click', function() {
             // Get user input for APP_KEY and APP_SECRET
-            const APP_KEY = document.getElementById('appKey').value;
-            const APP_SECRET = document.getElementById('appSecret').value;
-
-            // Default REDIRECT_URI
-            const REDIRECT_URI = 'https://www.dropbox.com/oauth2/authorize';
+            APP_KEY = document.getElementById('appKey').value;
+            APP_SECRET = document.getElementById('appSecret').value;
 
             if (!APP_KEY || !APP_SECRET) {
                 alert("Please enter both App Key and App Secret.");
                 return;
             }
 
-            // Step 1: Redirect the user to the Dropbox authorization page
+            // Show the authorization code section
+            document.getElementById('authCodeSection').style.display = 'block';
+
+            // Generate the authorization link
+            const REDIRECT_URI = 'https://www.dropbox.com/oauth2/authorize';
             const authUrl = `https://www.dropbox.com/oauth2/authorize?client_id=${APP_KEY}&response_type=code&redirect_uri=${REDIRECT_URI}&token_access_type=offline`;
-            window.location.href = authUrl;
+            document.getElementById('authLink').href = authUrl;
         });
 
-        // Step 2: Handle the callback after the user authorizes the app
-        const urlParams = new URLSearchParams(window.location.search);
-        const authCode = urlParams.get('code');
+        document.getElementById('generateTokenButton').addEventListener('click', function() {
+            const authCode = document.getElementById('authCode').value;
 
-        if (authCode) {
-            // Get user input for APP_KEY and APP_SECRET again (since the page reloads after redirect)
-            const APP_KEY = document.getElementById('appKey').value;
-            const APP_SECRET = document.getElementById('appSecret').value;
-
-            if (!APP_KEY || !APP_SECRET) {
-                alert("Please enter both App Key and App Secret.");
+            if (!authCode) {
+                alert("Please enter the authorization code.");
                 return;
             }
 
@@ -72,9 +79,13 @@
             .then(data => {
                 const outputDiv = document.getElementById('output');
                 outputDiv.innerHTML = `
-                    <p>Access Token: ${data.access_token}</p>
-                    <p>Refresh Token: ${data.refresh_token}</p>
-                    <p>User ID: ${data.uid}</p>
+                    <h2>Account Data:</h2>
+                    <p><strong>Access Token:</strong> ${data.access_token}</p>
+                    <p><strong>Refresh Token:</strong> ${data.refresh_token}</p>
+                    <p><strong>User ID:</strong> ${data.uid}</p>
+                    <p><strong>Token Type:</strong> ${data.token_type}</p>
+                    <p><strong>Expires In:</strong> ${data.expires_in} seconds</p>
+                    <p><strong>Scope:</strong> ${data.scope}</p>
                 `;
             })
             .catch(error => {
@@ -82,7 +93,7 @@
                 const outputDiv = document.getElementById('output');
                 outputDiv.innerHTML = `<p>Error: ${error.message}</p>`;
             });
-        }
+        });
     </script>
 </body>
 </html>
