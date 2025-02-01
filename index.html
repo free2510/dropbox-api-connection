@@ -1,40 +1,159 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Dropbox OAuth2 Example</title>
+    <style>
+        /* General Styles */
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f5f5f7;
+            color: #333;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            padding: 30px;
+            max-width: 500px;
+            width: 100%;
+            margin: 20px;
+        }
+
+        h1 {
+            font-size: 24px;
+            margin-bottom: 20px;
+            color: #0061ff;
+            text-align: center;
+        }
+
+        h2 {
+            font-size: 20px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        label {
+            font-weight: bold;
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        input[type="text"] {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            background-color: #0061ff;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 14px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        button:hover {
+            background-color: #0047cc;
+        }
+
+        #authCodeSection {
+            margin-top: 20px;
+        }
+
+        #authLink {
+            color: #0061ff;
+            text-decoration: none;
+            font-weight: bold;
+        }
+
+        #authLink:hover {
+            text-decoration: underline;
+        }
+
+        #output {
+            margin-top: 20px;
+            padding: 15px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        #output p {
+            margin: 10px 0;
+            font-size: 14px;
+        }
+
+        #output strong {
+            color: #0061ff;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 600px) {
+            .container {
+                padding: 20px;
+            }
+
+            h1 {
+                font-size: 20px;
+            }
+
+            h2 {
+                font-size: 18px;
+            }
+        }
+    </style>
 </head>
+
 <body>
-    <h1>Dropbox OAuth2 Example</h1>
+    <div class="container">
+        <h1>Dropbox Account/h1>
+            <h3 style="color: rgb(134, 20, 20);"># add url redirect to app https://www.dropbox.com/oauth2/authorize
+            </h3>
 
-    <!-- Input fields for APP_KEY and APP_SECRET -->
-    <label for="appKey">App Key:</label>
-    <input type="text" id="appKey" placeholder="Enter your App Key"><br><br>
+            <!-- Input fields for APP_KEY and APP_SECRET -->
+            <label for="appKey">App Key:</label>
+            <input type="text" id="appKey" placeholder="Enter your App Key">
 
-    <label for="appSecret">App Secret:</label>
-    <input type="text" id="appSecret" placeholder="Enter your App Secret"><br><br>
+            <label for="appSecret">App Secret:</label>
+            <input type="text" id="appSecret" placeholder="Enter your App Secret">
 
-    <!-- Button to start authorization -->
-    <button id="authorizeButton">Authorize Dropbox</button>
+            <!-- Button to start authorization -->
+            <button id="authorizeButton">Authorize Dropbox</button>
 
-    <!-- Section for authorization code input -->
-    <div id="authCodeSection" style="display: none;">
-        <h2>Step 2: Enter Authorization Code</h2>
-        <p>1. Click the link below to authorize the app:</p>
-        <a id="authLink" target="_blank">Authorize Dropbox</a><br><br>
-        <p>2. After authorizing, copy the authorization code and paste it below:</p>
-        <input type="text" id="authCode" placeholder="Enter authorization code"><br><br>
-        <button id="generateTokenButton">Generate Access Token and Refresh Token</button>
+            <!-- Section for authorization code input -->
+            <div id="authCodeSection" style="display: none;">
+                <h2>Step 2: Enter Authorization Code</h2>
+                <p>1. Click the link below to authorize the app:</p>
+                <a id="authLink" target="_blank">Authorize Dropbox</a><br><br>
+                <p>2. After authorizing, copy the authorization code and paste it below:</p>
+                <input type="text" id="authCode" placeholder="Enter authorization code"><br><br>
+                <button id="generateTokenButton">Generate Access Token and Refresh Token</button>
+            </div>
+
+            <!-- Output area for tokens and account data -->
+            <div id="output"></div>
     </div>
-
-    <!-- Output area for tokens and account data -->
-    <div id="output"></div>
 
     <script>
         let APP_KEY, APP_SECRET;
 
-        document.getElementById('authorizeButton').addEventListener('click', function() {
+        document.getElementById('authorizeButton').addEventListener('click', function () {
             // Get user input for APP_KEY and APP_SECRET
             APP_KEY = document.getElementById('appKey').value;
             APP_SECRET = document.getElementById('appSecret').value;
@@ -53,7 +172,7 @@
             document.getElementById('authLink').href = authUrl;
         });
 
-        document.getElementById('generateTokenButton').addEventListener('click', function() {
+        document.getElementById('generateTokenButton').addEventListener('click', function () {
             const authCode = document.getElementById('authCode').value;
 
             if (!authCode) {
@@ -75,10 +194,10 @@
                     'redirect_uri': 'https://www.dropbox.com/oauth2/authorize', // Use the same redirect URI
                 }),
             })
-            .then(response => response.json())
-            .then(data => {
-                const outputDiv = document.getElementById('output');
-                outputDiv.innerHTML = `
+                .then(response => response.json())
+                .then(data => {
+                    const outputDiv = document.getElementById('output');
+                    outputDiv.innerHTML = `
                     <h2>Account Data:</h2>
                     <p><strong>Access Token:</strong> ${data.access_token}</p>
                     <p><strong>Refresh Token:</strong> ${data.refresh_token}</p>
@@ -87,13 +206,14 @@
                     <p><strong>Expires In:</strong> ${data.expires_in} seconds</p>
                     <p><strong>Scope:</strong> ${data.scope}</p>
                 `;
-            })
-            .catch(error => {
-                console.error('Error:', error);
-                const outputDiv = document.getElementById('output');
-                outputDiv.innerHTML = `<p>Error: ${error.message}</p>`;
-            });
+                })
+                .catch(error => {
+                    console.error('Error:', error);
+                    const outputDiv = document.getElementById('output');
+                    outputDiv.innerHTML = `<p>Error: ${error.message}</p>`;
+                });
         });
     </script>
 </body>
+
 </html>
