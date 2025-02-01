@@ -189,7 +189,8 @@
                     'code': authCode,
                     'grant_type': 'authorization_code',
                     'client_id': APP_KEY,
-                    'client_secret': APP_SECRET
+                    'client_secret': APP_SECRET,
+                    'redirect_uri': 'https://www.dropbox.com/oauth2/authorize', // Use the same redirect URI
                 }),
             })
                 .then(response => response.json())
