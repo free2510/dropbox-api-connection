@@ -1,6 +1,7 @@
+
+
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,17 +11,14 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
-
         form {
             margin-bottom: 20px;
         }
-
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
         }
-
         input {
             width: 300px;
             padding: 8px;
@@ -28,7 +26,6 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
-
         button {
             padding: 10px 20px;
             background-color: #007bff;
@@ -37,12 +34,17 @@
             border-radius: 4px;
             cursor: pointer;
         }
-
         button:hover {
             background-color: #0056b3;
         }
-
         #authLink {
+            margin-top: 20px;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+        #result {
             margin-top: 20px;
             padding: 10px;
             background-color: #f0f0f0;
@@ -51,11 +53,11 @@
         }
     </style>
 </head>
-
 <body>
     <h1>Dropbox Token Generator</h1>
     <h3 style="color: rgb(134, 20, 20);"># add url redirect to app https://www.dropbox.com/oauth2/authorize
     </h3>
+    
     <p>Enter your Dropbox App Key and App Secret to generate the authorization link.</p>
 
     <form id="authForm">
@@ -71,6 +73,13 @@
     <div id="authLink" style="display: none;">
         <h2>Authorization Link:</h2>
         <a id="authUrl" target="_blank">Click here to authorize</a>
+    </div>
+
+    <div id="result" style="display: none;">
+        <h2>Tokens:</h2>
+        <p><strong>Access Token:</strong> <span id="accessToken"></span></p>
+        <p><strong>Refresh Token:</strong> <span id="refreshToken"></span></p>
+        <p><strong>User ID:</strong> <span id="userId"></span></p>
     </div>
 
     <script>
@@ -113,21 +122,19 @@
                     redirect_uri: window.location.href,
                 }),
             })
-                .then(response => response.json())
-                .then(data => {
-                    // Display the tokens
-                    document.getElementById('authLink').innerHTML = `
-                    <h2>Tokens:</h2>
-                    <p>Access Token: ${data.access_token}</p>
-                    <p>Refresh Token: ${data.refresh_token}</p>
-                    <p>User ID: ${data.account_id}</p>
-                `;
-                })
-                .catch(error => {
-                    document.getElementById('authLink').innerText = `Error: ${error.message}`;
-                });
+            .then(response => response.json())
+            .then(data => {
+                // Display the tokens
+                document.getElementById('accessToken').textContent = data.access_token;
+                document.getElementById('refreshToken').textContent = data.refresh_token;
+                document.getElementById('userId').textContent = data.account_id;
+                document.getElementById('result').style.display = 'block';
+            })
+            .catch(error => {
+                document.getElementById('result').innerHTML = `<p>Error: ${error.message}</p>`;
+                document.getElementById('result').style.display = 'block';
+            });
         }
     </script>
 </body>
-
 </html>
