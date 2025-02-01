@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,14 +10,17 @@
             font-family: Arial, sans-serif;
             margin: 20px;
         }
+
         form {
             margin-bottom: 20px;
         }
+
         label {
             display: block;
             margin-bottom: 5px;
             font-weight: bold;
         }
+
         input {
             width: 300px;
             padding: 8px;
@@ -24,6 +28,7 @@
             border: 1px solid #ccc;
             border-radius: 4px;
         }
+
         button {
             padding: 10px 20px;
             background-color: #007bff;
@@ -32,9 +37,11 @@
             border-radius: 4px;
             cursor: pointer;
         }
+
         button:hover {
             background-color: #0056b3;
         }
+
         #authLink {
             margin-top: 20px;
             padding: 10px;
@@ -44,8 +51,11 @@
         }
     </style>
 </head>
+
 <body>
     <h1>Dropbox Token Generator</h1>
+    <h3 style="color: rgb(134, 20, 20);"># add url redirect to app https://www.dropbox.com/oauth2/authorize
+    </h3>
     <p>Enter your Dropbox App Key and App Secret to generate the authorization link.</p>
 
     <form id="authForm">
@@ -103,20 +113,21 @@
                     redirect_uri: window.location.href,
                 }),
             })
-            .then(response => response.json())
-            .then(data => {
-                // Display the tokens
-                document.getElementById('authLink').innerHTML = `
+                .then(response => response.json())
+                .then(data => {
+                    // Display the tokens
+                    document.getElementById('authLink').innerHTML = `
                     <h2>Tokens:</h2>
                     <p>Access Token: ${data.access_token}</p>
                     <p>Refresh Token: ${data.refresh_token}</p>
                     <p>User ID: ${data.account_id}</p>
                 `;
-            })
-            .catch(error => {
-                document.getElementById('authLink').innerText = `Error: ${error.message}`;
-            });
+                })
+                .catch(error => {
+                    document.getElementById('authLink').innerText = `Error: ${error.message}`;
+                });
         }
     </script>
 </body>
+
 </html>
