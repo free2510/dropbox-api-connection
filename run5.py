@@ -4,14 +4,16 @@ import dropbox
 from dropbox import DropboxOAuth2FlowNoRedirect
 
 # Replace these with your app's key and secret
-APP_KEY = 'hgabefdupnfjf7e'
-APP_SECRET = 'ul0anfyr08to982'
+APP_KEY = 'asawfakua8opdf5'
+APP_SECRET = '565z8lxrwu9i251'
 
 # Set up the OAuth2 flow with offline access
+# add url redirect to app https://www.dropbox.com/oauth2/authorize
+
 auth_flow = DropboxOAuth2FlowNoRedirect(
     APP_KEY,
     APP_SECRET,
-    token_access_type='offline'  # Request offline access to get a refresh token
+    token_access_type='offline' 
 )
 
 # Get the authorization URL
